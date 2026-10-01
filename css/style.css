@@ -30,11 +30,11 @@ main { flex:1; }
 .text-link { font-weight:600; color:var(--pink-dark); transition:color .2s; }
 .text-link:hover { color:var(--pink); }
 .feature-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2rem; }
-.feature-card { display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--paper); border-radius:0.5rem; padding:1.5rem; text-decoration:none; transition:transform .2s,box-shadow .2s; box-shadow:0 4px 15px rgba(0,0,0,.05); text-align:center; }
+.feature-card { display:flex; flex-direction:column; background:var(--paper); border-radius:0.5rem; padding:1rem; text-decoration:none; transition:transform .2s,box-shadow .2s; box-shadow:0 4px 15px rgba(0,0,0,.05); }
 .feature-card:hover { transform:translateY(-4px); box-shadow:var(--shadow); }
-.feature-card h3 { font-family:'Pixelify Sans',sans-serif; margin:0 0 1.5rem 0; text-align:center; order:-1; flex-basis:100%; }
-.feature-card p { margin:1.5rem 0 0 0; font-size:0.95rem; text-align:center; }
-.card-image { width:100%; max-width:280px; height:280px; border-radius:0.5rem; object-fit:cover; }
+.feature-card h3 { font-family:'Pixelify Sans',sans-serif; margin:1rem 0 0 0; }
+.feature-card p { margin:0.5rem 0 0 0; font-size:0.95rem; }
+.card-image { width:100%; height:auto; border-radius:0.5rem; object-fit:cover; }
 .callout { display:flex; align-items:center; gap:4rem; background:var(--paper); padding:3rem; border-radius:0.5rem; box-shadow:0 4px 15px rgba(0,0,0,.05); }
 .callout > img { flex-shrink:0; max-width:300px; height:auto; border-radius:0.5rem; }
 .callout > div h2 { font-family:'Pixelify Sans',sans-serif; font-size:2rem; margin:0; }
