@@ -11,17 +11,22 @@
   <link rel="stylesheet" href="css/style.css">
   <script defer src="js/site.js"></script>
   <style>
-    .pack-detail { max-width:1000px; }
+    .pack-detail { max-width:1100px; }
     .pack-detail .back-link { display:inline-block; margin-bottom:1.5rem; color:var(--pink-dark); font-weight:600; }
-    .pack-detail-layout { display:grid; grid-template-columns:minmax(240px, .9fr) minmax(280px, 1.1fr); gap:2.5rem; align-items:start; }
-    .pack-detail-image { width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:.75rem; box-shadow:var(--shadow); background:var(--paper); }
+    .pack-detail-layout { display:grid; grid-template-columns:minmax(280px,.9fr) minmax(300px,1.1fr); gap:2.5rem; align-items:start; }
+    .skin-viewer-panel { display:flex; flex-direction:column; align-items:center; gap:1rem; padding:1.25rem; border-radius:.75rem; background:var(--paper); box-shadow:var(--shadow); }
+    #skin-viewer { display:block; width:100%; max-width:360px; height:auto; aspect-ratio:3/4; border-radius:.5rem; background:linear-gradient(180deg,#d9f8ee,#f9dff3); touch-action:pan-y; }
+    .skin-select-wrap { width:100%; max-width:360px; }
+    .skin-select-wrap label { display:block; margin-bottom:.35rem; font-weight:600; }
+    #skin-select { width:100%; padding:.65rem; border:1px solid rgba(22,19,28,.25); border-radius:.4rem; font:inherit; background:#fff; }
+    #viewer-status { min-height:1.5em; margin:0; text-align:center; font-size:.95rem; }
     .pack-detail h1, .pack-detail h2 { font-family:'Pixelify Sans',sans-serif; }
     .edition-downloads { display:grid; gap:1rem; margin:1.5rem 0; }
     .edition-download { background:var(--paper); border-radius:.75rem; padding:1rem; }
     .edition-download h2 { margin:.2rem 0 .5rem; font-size:1.35rem; }
     .edition-download p { margin:.35rem 0 1rem; }
     .pack-note { font-size:.95rem; }
-    @media (max-width:700px) { .pack-detail-layout { grid-template-columns:1fr; } .pack-detail { padding:2rem 1.25rem; } }
+    @media (max-width:760px) { .pack-detail-layout { grid-template-columns:1fr; } .pack-detail { padding:2rem 1.25rem; } }
   </style>
 </head>
 <body>
@@ -40,7 +45,14 @@
   <main class="page-shell page-content pack-detail">
     <a class="back-link" href="skins.html">← Back to all packs</a>
     <div id="pack-content" class="pack-detail-layout" hidden>
-      <img id="pack-image" class="pack-detail-image" src="" alt="">
+      <section class="skin-viewer-panel" aria-label="Interactive 3D skin preview">
+        <canvas id="skin-viewer" width="360" height="480" aria-label="Rotating 3D preview of the selected Minecraft skin"></canvas>
+        <div class="skin-select-wrap">
+          <label for="skin-select">Choose a skin to preview</label>
+          <select id="skin-select"></select>
+        </div>
+        <p id="viewer-status" role="status" aria-live="polite">Loading 3D preview…</p>
+      </section>
       <div>
         <p class="eyebrow">MAGICwhisp skin pack</p>
         <h1 id="pack-title"></h1>
@@ -48,7 +60,7 @@
         <p id="pack-more"></p>
         <h2>Choose your edition</h2>
         <div id="edition-downloads" class="edition-downloads"></div>
-        <p class="pack-note">Downloads are hosted on this website. The download buttons will work once the matching files are uploaded to <code>assets/packs/</code>.</p>
+        <p class="pack-note">Download buttons will work once the matching files are uploaded to <code>assets/packs/</code>.</p>
       </div>
     </div>
     <section id="not-found" hidden>
@@ -59,20 +71,23 @@
     </section>
   </main>
   <footer class="site-footer"><strong>MAGICwhisp</strong><span>© 2026</span><span>Creativity Is Just The Key To Unlocking Great Things</span></footer>
+
+  <!-- skinview3d renders the flat skin PNG as a rotating 3D character. -->
+  <script src="https://cdn.jsdelivr.net/npm/skinview3d@1.19.0/bundles/skinview3d.min.js"></script>
   <script>
     const packs = {
       'christmas-sweater-teens': {
         title: 'Christmas Sweater Teens',
-        image: 'assets/images/christmas-sweater-teens.png',
         description: 'A festive teen-themed skin collection with cozy Christmas sweater style.',
-        more: 'This pack currently has a Bedrock Edition download. Open the .mcpack file with Minecraft Bedrock to import the skin pack.',
+        more: 'This pack currently has a Bedrock Edition download. Select a skin above to view it from every side.',
+        skins: ['Antonio.png', 'Everest.png', 'Griffin.png', 'Mavis.png', 'Jin.png', 'Riko.png', 'Kai.png', 'Meowy.png', 'Ravian.png', 'Mela.png'],
         editions: [{ name: 'Bedrock Edition', format: '.mcpack', file: 'christmas-sweater-teens-bedrock.mcpack', instructions: 'Import this pack into Minecraft Bedrock Edition.' }]
       },
       'rainbow-gamers': {
         title: 'Rainbow Gamers',
-        image: 'assets/images/rainbow-gamers.png',
         description: 'A colorful gaming-inspired skin collection.',
-        more: 'Choose the download made for your edition. The Bedrock pack imports into Minecraft; the Java ZIP contains skin image files for you to extract and upload individually.',
+        more: 'Select a character to rotate its 3D preview. Choose the download made for your edition.',
+        skins: ['Rosalie.png', 'Jasper.png', 'Honey.png', 'Zest.png', 'Evergreen.png', 'Azure.png', 'Aster.png', 'Orion.png', 'Petal.png', 'Ivory.png', 'Iris.png', 'Prism.png'],
         editions: [
           { name: 'Bedrock Edition', format: '.mcpack', file: 'rainbow-gamers-bedrock.mcpack', instructions: 'Import this pack into Minecraft Bedrock Edition.' },
           { name: 'Java Edition', format: '.zip', file: 'rainbow-gamers-java.zip', instructions: 'Extract the ZIP, then upload a PNG skin through your Minecraft profile.' }
@@ -80,9 +95,9 @@
       },
       'greyscale-teens': {
         title: 'Greyscale Teens',
-        image: 'assets/images/greyscale-teens.png',
         description: 'A teen-themed collection with a greyscale look.',
-        more: 'Choose the download made for your edition. The Bedrock pack imports into Minecraft; the Java ZIP contains skin image files for you to extract and upload individually.',
+        more: 'Select a character to rotate its 3D preview. Choose the download made for your edition.',
+        skins: ['Ash.png', 'Crowe.png', 'Echo.png', 'Jax.png', 'Kira.png', 'Lyra.png', 'Milo.png', 'Noir.png', 'Raven.png', 'Sadie.png', 'Violet.png', 'Willow.png'],
         editions: [
           { name: 'Bedrock Edition', format: '.mcpack', file: 'greyscale-teens-bedrock.mcpack', instructions: 'Import this pack into Minecraft Bedrock Edition.' },
           { name: 'Java Edition', format: '.zip', file: 'greyscale-teens-java.zip', instructions: 'Extract the ZIP, then upload a PNG skin through your Minecraft profile.' }
@@ -90,9 +105,9 @@
       },
       'sakura-couples': {
         title: 'Sakura Couples',
-        image: 'assets/images/sakura-couples.png',
         description: 'A sakura-themed couples skin collection.',
-        more: 'Choose the download made for your edition. The Bedrock pack imports into Minecraft; the Java ZIP contains skin image files for you to extract and upload individually.',
+        more: 'Select a character to rotate its 3D preview. Choose the download made for your edition.',
+        skins: ['Adam.png', 'Annabelle.png', 'Danny.png', 'Dawn.png', 'Fred.png', 'Freya.png', 'Jewel.png', 'Justin.png', 'Levi.png', 'Lily.png', 'Mina.png', 'Monty.png'],
         editions: [
           { name: 'Bedrock Edition', format: '.mcpack', file: 'sakura-couples-bedrock.mcpack', instructions: 'Import this pack into Minecraft Bedrock Edition.' },
           { name: 'Java Edition', format: '.zip', file: 'sakura-couples-java.zip', instructions: 'Extract the ZIP, then upload a PNG skin through your Minecraft profile.' }
@@ -102,17 +117,48 @@
 
     const pack = packs[new URLSearchParams(window.location.search).get('pack')];
     const content = document.querySelector('#pack-content');
+    const notFound = document.querySelector('#not-found');
     if (!pack) {
-      document.querySelector('#not-found').hidden = false;
+      notFound.hidden = false;
     } else {
       content.hidden = false;
       document.title = `${pack.title} | MAGICwhisp`;
       document.querySelector('#pack-title').textContent = pack.title;
       document.querySelector('#pack-description').textContent = pack.description;
       document.querySelector('#pack-more').textContent = pack.more;
-      const image = document.querySelector('#pack-image');
-      image.src = pack.image;
-      image.alt = `${pack.title} skin pack preview`;
+
+      const selector = document.querySelector('#skin-select');
+      const status = document.querySelector('#viewer-status');
+      pack.skins.forEach((filename) => {
+        const option = document.createElement('option');
+        option.value = filename;
+        option.textContent = filename.replace(/\.png$/i, '');
+        selector.append(option);
+      });
+
+      let viewer;
+      if (window.skinview3d) {
+        viewer = new skinview3d.SkinViewer({
+          canvas: document.querySelector('#skin-viewer'),
+          width: 360,
+          height: 480
+        });
+        viewer.animation = new skinview3d.RotatingAnimation();
+        viewer.animation.speed = 0.6;
+
+        const loadSelectedSkin = () => {
+          const filename = selector.value;
+          status.textContent = `Loading ${filename}…`;
+          viewer.loadSkin(`assets/skins/${encodeURIComponent(filename)}`, { model: 'slim' })
+            .then(() => { status.textContent = `${filename.replace(/\.png$/i, '')} — Alex/slim model`; })
+            .catch(() => { status.textContent = `Couldn't load ${filename}. Check that it is uploaded to assets/skins/ with the exact same capitalization.`; });
+        };
+        selector.addEventListener('change', loadSelectedSkin);
+        loadSelectedSkin();
+      } else {
+        status.textContent = 'The 3D preview could not load. Please try again later.';
+      }
+
       const downloads = document.querySelector('#edition-downloads');
       pack.editions.forEach((edition) => {
         const section = document.createElement('section');
