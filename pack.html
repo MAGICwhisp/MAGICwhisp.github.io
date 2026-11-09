@@ -1,2 +1,135 @@
 <!doctype html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Skin Pack | MAGICwhisp</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css"><script defer src="js/site.js"></script></head><body><div class="pixel-transition" aria-hidden="true"></div><header class="site-header"><a class="brand" href="index.html">MAGICwhisp</a><button class="menu-toggle" aria-label="Open navigation" aria-expanded="false">☰</button><nav class="site-nav" aria-label="Main navigation"><a href="index.html">Home</a><a class="active" href="skins.html">Skins</a><a href="future-projects.html">Future Projects</a><a href="about.html">About</a><a href="contact.html">Contact</a></nav></header><main class="page-shell page-content detail-page"><a class="back-link" href="skins.html">← Back to skins</a><div class="detail-layout"><div class="detail-art image-placeholder">PACK PREVIEW IMAGE</div><div><p class="eyebrow">Skin pack</p><h1 id="pack-title">Enchanted Forest</h1><p id="pack-description" class="lead">A magical collection for woodland wanderers.</p><p>Replace each preview box with your pack artwork, then update the download links to point to your ZIP file.</p><a class="button" href="assets/packs/enchanted-forest.zip" download>Download whole pack</a></div></div><h2>Inside this pack</h2><div class="mini-grid"><a class="feature-card" href="skin.html?skin=forest-ranger"><div class="card-image image-placeholder">SKIN IMAGE</div><h3>Forest Ranger</h3><p>View and download →</p></a><a class="feature-card" href="skin.html?skin=mushroom-mage"><div class="card-image image-placeholder">SKIN IMAGE</div><h3>Mushroom Mage</h3><p>View and download →</p></a><a class="feature-card" href="skin.html?skin=moonlit-elf"><div class="card-image image-placeholder">SKIN IMAGE</div><h3>Moonlit Elf</h3><p>View and download →</p></a></div></main><footer class="site-footer"><strong>MAGICwhisp</strong><span>© 2026</span><span>Creativity Is Just The Key To Unlocking Great Things</span></footer></body></html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explore and download MAGICwhisp Minecraft skin packs.">
+  <title>Skin Pack | MAGICwhisp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="js/site.js"></script>
+  <style>
+    .pack-detail { max-width:1000px; }
+    .pack-detail .back-link { display:inline-block; margin-bottom:1.5rem; color:var(--pink-dark); font-weight:600; }
+    .pack-detail-layout { display:grid; grid-template-columns:minmax(240px, .9fr) minmax(280px, 1.1fr); gap:2.5rem; align-items:start; }
+    .pack-detail-image { width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:.75rem; box-shadow:var(--shadow); background:var(--paper); }
+    .pack-detail h1, .pack-detail h2 { font-family:'Pixelify Sans',sans-serif; }
+    .edition-downloads { display:grid; gap:1rem; margin:1.5rem 0; }
+    .edition-download { background:var(--paper); border-radius:.75rem; padding:1rem; }
+    .edition-download h2 { margin:.2rem 0 .5rem; font-size:1.35rem; }
+    .edition-download p { margin:.35rem 0 1rem; }
+    .pack-note { font-size:.95rem; }
+    @media (max-width:700px) { .pack-detail-layout { grid-template-columns:1fr; } .pack-detail { padding:2rem 1.25rem; } }
+  </style>
+</head>
+<body>
+  <div class="pixel-transition" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="index.html">MAGICwhisp</a>
+    <button class="menu-toggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a class="active" href="skins.html">Skins</a>
+      <a href="future-projects.html">Future Projects</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+  <main class="page-shell page-content pack-detail">
+    <a class="back-link" href="skins.html">← Back to all packs</a>
+    <div id="pack-content" class="pack-detail-layout" hidden>
+      <img id="pack-image" class="pack-detail-image" src="" alt="">
+      <div>
+        <p class="eyebrow">MAGICwhisp skin pack</p>
+        <h1 id="pack-title"></h1>
+        <p id="pack-description" class="lead"></p>
+        <p id="pack-more"></p>
+        <h2>Choose your edition</h2>
+        <div id="edition-downloads" class="edition-downloads"></div>
+        <p class="pack-note">Downloads are hosted on this website. The download buttons will work once the matching files are uploaded to <code>assets/packs/</code>.</p>
+      </div>
+    </div>
+    <section id="not-found" hidden>
+      <p class="eyebrow">Pack not found</p>
+      <h1>We couldn't find that pack.</h1>
+      <p>Choose one of the available packs to continue.</p>
+      <a class="button" href="skins.html">Browse skin packs</a>
+    </section>
+  </main>
+  <footer class="site-footer"><strong>MAGICwhisp</strong><span>© 2026</span><span>Creativity Is Just The Key To Unlocking Great Things</span></footer>
+  <script>
+    const packs = {
+      'christmas-sweater-teens': {
+        title: 'Christmas Sweater Teens',
+        image: 'assets/images/christmas-sweater-teens.png',
+        description: 'A festive teen-themed skin collection with cozy Christmas sweater style.',
+        more: 'This pack currently has a Bedrock Edition download. Open the .mcpack file with Minecraft Bedrock to import the skin pack.',
+        editions: [{ name: 'Bedrock Edition', format: '.mcpack', file: 'christmas-sweater-teens-bedrock.mcpack', instructions: 'Import this pack into Minecraft Bedrock Edition.' }]
+      },
+      'rainbow-gamers': {
+        title: 'Rainbow Gamers',
+        image: 'assets/images/rainbow-gamers-model.png',
+        description: 'A colorful gaming-inspired skin collection.',
+        more: 'Choose the download made for your edition. The Bedrock pack imports into Minecraft; the Java ZIP contains skin image files for you to extract and upload individually.',
+        editions: [
+          { name: 'Bedrock Edition', format: '.mcpack', file: 'rainbow-gamers-bedrock.mcpack', instructions: 'Import this pack into Minecraft Bedrock Edition.' },
+          { name: 'Java Edition', format: '.zip', file: 'rainbow-gamers-java.zip', instructions: 'Extract the ZIP, then upload a PNG skin through your Minecraft profile.' }
+        ]
+      },
+      'greyscale-teens': {
+        title: 'Greyscale Teens',
+        image: 'assets/images/greyscale-teens.png',
+        description: 'A teen-themed collection with a greyscale look.',
+        more: 'Choose the download made for your edition. The Bedrock pack imports into Minecraft; the Java ZIP contains skin image files for you to extract and upload individually.',
+        editions: [
+          { name: 'Bedrock Edition', format: '.mcpack', file: 'greyscale-teens-bedrock.mcpack', instructions: 'Import this pack into Minecraft Bedrock Edition.' },
+          { name: 'Java Edition', format: '.zip', file: 'greyscale-teens-java.zip', instructions: 'Extract the ZIP, then upload a PNG skin through your Minecraft profile.' }
+        ]
+      },
+      'sakura-couples': {
+        title: 'Sakura Couples',
+        image: 'assets/images/sakura-couples.png',
+        description: 'A sakura-themed couples skin collection.',
+        more: 'Choose the download made for your edition. The Bedrock pack imports into Minecraft; the Java ZIP contains skin image files for you to extract and upload individually.',
+        editions: [
+          { name: 'Bedrock Edition', format: '.mcpack', file: 'sakura-couples-bedrock.mcpack', instructions: 'Import this pack into Minecraft Bedrock Edition.' },
+          { name: 'Java Edition', format: '.zip', file: 'sakura-couples-java.zip', instructions: 'Extract the ZIP, then upload a PNG skin through your Minecraft profile.' }
+        ]
+      }
+    };
+
+    const pack = packs[new URLSearchParams(window.location.search).get('pack')];
+    const content = document.querySelector('#pack-content');
+    if (!pack) {
+      document.querySelector('#not-found').hidden = false;
+    } else {
+      content.hidden = false;
+      document.title = `${pack.title} | MAGICwhisp`;
+      document.querySelector('#pack-title').textContent = pack.title;
+      document.querySelector('#pack-description').textContent = pack.description;
+      document.querySelector('#pack-more').textContent = pack.more;
+      const image = document.querySelector('#pack-image');
+      image.src = pack.image;
+      image.alt = `${pack.title} skin pack preview`;
+      const downloads = document.querySelector('#edition-downloads');
+      pack.editions.forEach((edition) => {
+        const section = document.createElement('section');
+        section.className = 'edition-download';
+        const heading = document.createElement('h2');
+        heading.textContent = `${edition.name} (${edition.format})`;
+        const description = document.createElement('p');
+        description.textContent = edition.instructions;
+        const link = document.createElement('a');
+        link.className = 'button';
+        link.href = `assets/packs/${edition.file}`;
+        link.setAttribute('download', '');
+        link.textContent = `Download for ${edition.name}`;
+        section.append(heading, description, link);
+        downloads.append(section);
+      });
+    }
+  </script>
+</body>
+</html>

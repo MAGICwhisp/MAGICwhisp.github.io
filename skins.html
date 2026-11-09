@@ -1,5 +1,73 @@
 <!doctype html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="Browse MAGICwhisp Minecraft skin packs."><title>Skins | MAGICwhisp</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css"><script defer src="js/site.js"></script></head>
-<body><div class="pixel-transition" aria-hidden="true"></div><header class="site-header"><a class="brand" href="index.html">MAGICwhisp</a><button class="menu-toggle" aria-label="Open navigation" aria-expanded="false">☰</button><nav class="site-nav" aria-label="Main navigation"><a href="index.html">Home</a><a class="active" href="skins.html">Skins</a><a href="future-projects.html">Future Projects</a><a href="about.html">About</a><a href="contact.html">Contact</a></nav></header>
-<main class="page-shell page-content"><p class="eyebrow">Collect your next look</p><h1>Skin packs & individual skins</h1><p class="lead">Choose a pack to explore its full collection, or find a single skin with search and filters.</p><div class="skin-tools"><label class="search-label" for="skin-search">Search <input id="skin-search" type="search" placeholder="Try “forest” or “cozy”..."></label><label class="search-label" for="skin-filter">Filter <select id="skin-filter"><option value="all">All themes</option><option value="fantasy">Fantasy</option><option value="cozy">Cozy</option><option value="adventure">Adventure</option></select></label></div>
-<section class="catalog-grid" aria-live="polite"><article class="catalog-card" data-name="enchanted forest" data-theme="fantasy adventure"><div class="card-image image-placeholder">PACK IMAGE</div><div class="card-body"><span class="tag">Fantasy · 3 skins</span><h2>Enchanted Forest</h2><p>Characters who know every secret path through the trees.</p><a class="button" href="pack.html?pack=enchanted-forest">View pack</a></div></article><article class="catalog-card" data-name="cozy cottage" data-theme="cozy"><div class="card-image image-placeholder">PACK IMAGE</div><div class="card-body"><span class="tag">Cozy · 3 skins</span><h2>Cozy Cottage</h2><p>Comfortable outfits for rainy days and friendly villages.</p><a class="button" href="pack.html?pack=cozy-cottage">View pack</a></div></article><article class="catalog-card" data-name="starbound explorer" data-theme="adventure fantasy"><div class="card-image image-placeholder">SKIN IMAGE</div><div class="card-body"><span class="tag">Adventure · Single skin</span><h2>Starbound Explorer</h2><p>A brave traveler with their eyes on the stars.</p><a class="button" href="skin.html?skin=starbound-explorer">View skin</a></div></article><p class="empty-state" hidden>No matching skins yet—try another search.</p></section></main><footer class="site-footer"><strong>MAGICwhisp</strong><span>© 2026</span><span>Creativity Is Just The Key To Unlocking Great Things</span></footer></body></html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Browse MAGICwhisp Minecraft skin packs for Bedrock and Java Edition.">
+  <title>Skin Packs | MAGICwhisp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="js/site.js"></script>
+  <style>
+    .pack-catalog-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:1.5rem; margin-top:2rem; }
+    a.pack-catalog-card { display:flex; flex-direction:column; padding:1rem; border-radius:.75rem; background:var(--paper); box-shadow:0 4px 15px rgba(0,0,0,.08); transition:transform .2s,box-shadow .2s; }
+    a.pack-catalog-card:hover, a.pack-catalog-card:focus-visible { transform:translateY(-4px); box-shadow:var(--shadow); }
+    .pack-catalog-card h2 { font-family:'Pixelify Sans',sans-serif; margin:1rem 0 .25rem; }
+    .pack-catalog-card p { margin:.25rem 0 .75rem; }
+    .edition-badges { display:flex; flex-wrap:wrap; gap:.4rem; margin-top:auto; }
+    .edition-badge { display:inline-block; padding:.2rem .65rem; border-radius:999px; background:rgba(144,250,215,.65); font-size:.9rem; }
+    .pack-catalog-card .card-image { object-fit:cover; }
+    @media (max-width:600px) { .page-shell { padding:2rem 1.25rem; } }
+  </style>
+</head>
+<body>
+  <div class="pixel-transition" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="index.html">MAGICwhisp</a>
+    <button class="menu-toggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a class="active" href="skins.html">Skins</a>
+      <a href="future-projects.html">Future Projects</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+  <main class="page-shell page-content">
+    <p class="eyebrow">Pick your next look</p>
+    <h1>Skin Packs</h1>
+    <p class="lead">Choose a pack to see its details and edition-specific downloads.</p>
+    <label class="search-label" for="skin-search">Search packs <input id="skin-search" type="search" placeholder="Try a pack name…"></label>
+    <section class="pack-catalog-grid" aria-label="Available skin packs">
+      <a class="pack-catalog-card catalog-card" data-name="christmas sweater teens" data-theme="cozy christmas" href="pack.html?pack=christmas-sweater-teens">
+        <img class="card-image" src="assets/images/christmas-sweater-teens.png" alt="Christmas Sweater Teens pack preview">
+        <h2>Christmas Sweater Teens</h2>
+        <p>A festive teen-themed skin collection.</p>
+        <span class="edition-badges"><span class="edition-badge">Bedrock Edition</span></span>
+      </a>
+      <a class="pack-catalog-card catalog-card" data-name="rainbow gamers" data-theme="colorful gaming" href="pack.html?pack=rainbow-gamers">
+        <img class="card-image" src="assets/images/rainbow-gamers-model.png" alt="Rainbow Gamers pack preview">
+        <h2>Rainbow Gamers</h2>
+        <p>A colorful gaming-inspired skin collection.</p>
+        <span class="edition-badges"><span class="edition-badge">Bedrock</span><span class="edition-badge">Java</span></span>
+      </a>
+      <a class="pack-catalog-card catalog-card" data-name="greyscale teens" data-theme="greyscale monochrome" href="pack.html?pack=greyscale-teens">
+        <img class="card-image" src="assets/images/greyscale-teens.png" alt="Greyscale Teens pack preview">
+        <h2>Greyscale Teens</h2>
+        <p>A teen-themed collection with a greyscale look.</p>
+        <span class="edition-badges"><span class="edition-badge">Bedrock</span><span class="edition-badge">Java</span></span>
+      </a>
+      <a class="pack-catalog-card catalog-card" data-name="sakura couples" data-theme="sakura couples" href="pack.html?pack=sakura-couples">
+        <img class="card-image" src="assets/images/sakura-couples.png" alt="Sakura Couples pack preview">
+        <h2>Sakura Couples</h2>
+        <p>A sakura-themed couples skin collection.</p>
+        <span class="edition-badges"><span class="edition-badge">Bedrock</span><span class="edition-badge">Java</span></span>
+      </a>
+    </section>
+    <p class="empty-state" hidden>No matching packs yet—try another search.</p>
+  </main>
+  <footer class="site-footer"><strong>MAGICwhisp</strong><span>© 2026</span><span>Creativity Is Just The Key To Unlocking Great Things</span></footer>
+</body>
+</html>
