@@ -73,7 +73,7 @@
   <footer class="site-footer"><strong>MAGICwhisp</strong><span>© 2026</span><span>Creativity Is Just The Key To Unlocking Great Things</span></footer>
 
   <!-- skinview3d renders the flat skin PNG as a rotating 3D character. -->
-  <script src="https://cdn.jsdelivr.net/npm/skinview3d@1.19.0/bundles/skinview3d.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/skinview3d@1.19.0/bundles/skinview3d.bundle.js"></script>
   <script>
     const packs = {
       'christmas-sweater-teens': {
@@ -136,9 +136,8 @@
         selector.append(option);
       });
 
-      let viewer;
       if (window.skinview3d) {
-        viewer = new skinview3d.SkinViewer({
+        const viewer = new skinview3d.SkinViewer({
           canvas: document.querySelector('#skin-viewer'),
           width: 360,
           height: 480
