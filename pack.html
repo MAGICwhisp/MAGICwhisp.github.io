@@ -15,46 +15,8 @@
     .pack-detail .back-link { display:inline-block; margin-bottom:1.5rem; color:var(--pink-dark); font-weight:600; }
     .pack-detail-layout { display:grid; grid-template-columns:minmax(280px,.9fr) minmax(300px,1.1fr); gap:2.5rem; align-items:start; }
     .skin-viewer-panel { display:flex; flex-direction:column; align-items:center; gap:1rem; padding:1.25rem; border-radius:.75rem; background:var(--paper); box-shadow:var(--shadow); }
-    .skin-viewport {
-      position:relative;
-      width:100%;
-      max-width:360px;
-      height:480px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      perspective:1200px;
-      background:linear-gradient(180deg,#d9f8ee,#f9dff3);
-      border-radius:0.75rem;
-      overflow:hidden;
-      box-shadow:inset 0 0 0 2px rgba(22,19,28,.08);
-    }
-    .skin-rotator {
-      position:relative;
-      width:220px;
-      height:380px;
-      transform-style:preserve-3d;
-      transition:transform .15s linear;
-      filter:drop-shadow(0 14px 10px rgba(22,19,28,.18));
-    }
-    .skin-rotator::before {
-      content:"";
-      position:absolute;
-      inset:8% 18% 10% 18%;
-      border-radius:14px;
-      background:rgba(0,0,0,.12);
-      filter:blur(18px);
-      transform:translateZ(-24px) scale(0.95);
-    }
-    .skin-rotator img {
-      display:block;
-      width:100%;
-      height:100%;
-      object-fit:contain;
-      border-radius:14px;
-      background:transparent;
-      transform:translateZ(18px);
-    }
+    .skin-viewport { width:100%; max-width:360px; height:480px; overflow:hidden; border-radius:.75rem; background:linear-gradient(180deg,#d9f8ee,#f9dff3); box-shadow:inset 0 0 0 2px rgba(22,19,28,.08); }
+    #skin-viewer { display:block; width:100%; height:100%; }
     .skin-select-wrap { width:100%; max-width:360px; }
     .skin-select-wrap label { display:block; margin-bottom:.35rem; font-weight:600; }
     #skin-select { width:100%; padding:.65rem; border:1px solid rgba(22,19,28,.25); border-radius:.4rem; font:inherit; background:#fff; }
@@ -85,16 +47,14 @@
     <a class="back-link" href="skins.html">← Back to all packs</a>
     <div id="pack-content" class="pack-detail-layout" hidden>
       <section class="skin-viewer-panel" aria-label="Interactive 3D skin preview">
-        <div class="skin-viewport" aria-label="Rotating skin preview">
-          <div id="skin-rotator" class="skin-rotator">
-            <img id="skin-image" src="" alt="Selected skin preview">
-          </div>
+        <div class="skin-viewport">
+          <canvas id="skin-viewer" width="360" height="480" aria-label="Rotating 3D preview of the selected Minecraft skin"></canvas>
         </div>
         <div class="skin-select-wrap">
           <label for="skin-select">Choose a skin to preview</label>
           <select id="skin-select"></select>
         </div>
-        <p id="viewer-status" role="status" aria-live="polite">Loading preview…</p>
+        <p id="viewer-status" role="status" aria-live="polite">Loading 3D preview…</p>
       </section>
       <div>
         <p class="eyebrow">MAGICwhisp skin pack</p>
@@ -115,7 +75,9 @@
   </main>
   <footer class="site-footer"><strong>MAGICwhisp</strong><span>© 2026</span><span>Creativity Is Just The Key To Unlocking Great Things</span></footer>
 
-  <script>
+  <script type="module">
+    import * as skinview3d from 'https://cdn.jsdelivr.net/npm/skinview3d@3.4.2/+esm';
+
     const packs = {
       'christmas-sweater-teens': {
         title: 'Christmas Sweater Teens',
@@ -171,9 +133,7 @@
 
       const selector = document.querySelector('#skin-select');
       const status = document.querySelector('#viewer-status');
-      const skinImage = document.querySelector('#skin-image');
-      const rotator = document.querySelector('#skin-rotator');
-      let rotation = 0;
+      const canvas = document.querySelector('#skin-viewer');
 
       pack.skins.forEach((filename) => {
         const option = document.createElement('option');
@@ -182,31 +142,36 @@
         selector.append(option);
       });
 
-      function renderRotationFrame() {
-        rotation = (rotation + 0.9) % 360;
-        rotator.style.transform = `rotateY(${rotation}deg) rotateX(10deg)`;
-        requestAnimationFrame(renderRotationFrame);
+      try {
+        const viewer = new skinview3d.SkinViewer({
+          canvas,
+          width: 360,
+          height: 480,
+          model: 'slim',
+          enableControls: true,
+          zoom: 0.72
+        });
+        viewer.autoRotate = true;
+        viewer.autoRotateSpeed = 0.65;
+
+        async function loadSkin(filename) {
+          const url = new URL(`assets/skins/${encodeURIComponent(filename)}`, document.baseURI).href;
+          status.textContent = `Loading ${filename}…`;
+          try {
+            await viewer.loadSkin(url, { model: 'slim' });
+            status.textContent = `${filename.replace(/\.png$/i, '')} — Alex/slim 3D model. Drag to rotate; scroll to zoom.`;
+          } catch (error) {
+            console.error('Could not load skin:', url, error);
+            status.textContent = `Couldn't load ${filename}. Confirm the PNG is reachable at ${url}.`;
+          }
+        }
+
+        selector.addEventListener('change', () => loadSkin(selector.value));
+        loadSkin(selector.value);
+      } catch (error) {
+        console.error('Could not initialize the 3D skin viewer:', error);
+        status.textContent = 'The 3D viewer could not start. Check that your browser supports WebGL.';
       }
-      requestAnimationFrame(renderRotationFrame);
-
-      function loadSkin(filename) {
-        const url = `assets/skins/${filename}`;
-        status.textContent = `Loading ${filename}…`;
-
-        const img = new Image();
-        img.onload = () => {
-          skinImage.src = url;
-          status.textContent = `${filename.replace(/\.png$/i, '')} — Alex/slim model preview`;
-        };
-        img.onerror = () => {
-          status.textContent = `Couldn't load ${filename}. Check that it is uploaded to assets/skins/ with the exact same capitalization.`;
-          skinImage.removeAttribute('src');
-        };
-        img.src = url;
-      }
-
-      selector.addEventListener('change', () => loadSkin(selector.value));
-      loadSkin(selector.value);
 
       const downloads = document.querySelector('#edition-downloads');
       pack.editions.forEach((edition) => {
