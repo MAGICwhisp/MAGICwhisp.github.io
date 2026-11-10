@@ -72,7 +72,6 @@
   </main>
   <footer class="site-footer"><strong>MAGICwhisp</strong><span>© 2026</span><span>Creativity Is Just The Key To Unlocking Great Things</span></footer>
 
-  <!-- skinview3d renders the flat skin PNG as a rotating 3D character. -->
   <script src="https://cdn.jsdelivr.net/npm/skinview3d@1.19.0/bundles/skinview3d.bundle.js"></script>
   <script>
     const packs = {
@@ -118,6 +117,7 @@
     const pack = packs[new URLSearchParams(window.location.search).get('pack')];
     const content = document.querySelector('#pack-content');
     const notFound = document.querySelector('#not-found');
+
     if (!pack) {
       notFound.hidden = false;
     } else {
@@ -136,22 +136,34 @@
         selector.append(option);
       });
 
-      if (window.skinview3d) {
+      if (window.skinview3d && window.skinview3d.SkinViewer) {
         const viewer = new skinview3d.SkinViewer({
           canvas: document.querySelector('#skin-viewer'),
           width: 360,
-          height: 480
+          height: 480,
+          model: 'slim'
         });
-        viewer.animation = new skinview3d.RotatingAnimation();
-        viewer.animation.speed = 0.6;
+
+        if (skinview3d.RotatingAnimation) {
+          viewer.animation = new skinview3d.RotatingAnimation();
+          viewer.animation.speed = 0.6;
+        } else {
+          viewer.autoRotate = true;
+        }
 
         const loadSelectedSkin = () => {
           const filename = selector.value;
+          const url = `assets/skins/${filename}`;
           status.textContent = `Loading ${filename}…`;
-          viewer.loadSkin(`assets/skins/${encodeURIComponent(filename)}`, { model: 'slim' })
-            .then(() => { status.textContent = `${filename.replace(/\.png$/i, '')} — Alex/slim model`; })
-            .catch(() => { status.textContent = `Couldn't load ${filename}. Check that it is uploaded to assets/skins/ with the exact same capitalization.`; });
+
+          try {
+            viewer.loadSkin(url, { model: 'slim' });
+            status.textContent = `${filename.replace(/\.png$/i, '')} — Alex/slim model`;
+          } catch (error) {
+            status.textContent = `Couldn't load ${filename}. Check that it is uploaded to assets/skins/ with the exact same capitalization.`;
+          }
         };
+
         selector.addEventListener('change', loadSelectedSkin);
         loadSelectedSkin();
       } else {
