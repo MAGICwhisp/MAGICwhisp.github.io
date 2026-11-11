@@ -1,6 +1,6 @@
 # MAGICwhisp.github.io
 
-A cozy, fantasy-inspired Minecraft skins and creations website.
+A cozy, Minecraft skins and creations website.
 
 ## Add pack images, skins, and downloads
 
@@ -11,12 +11,9 @@ A cozy, fantasy-inspired Minecraft skins and creations website.
 - Add a matching card in `skins.html` with the same pack ID and preview image.
 - Bedrock downloads should be correctly packaged `.mcpack` skin packs; Java downloads can be `.zip` archives containing the individual `.png` skins and any helpful instructions.
 
-The current pack pages expect these filenames in `assets/packs/`:
-
-- `christmas-sweater-teens-bedrock.mcpack`
+Make sure the look of code and such in `assets/packs/` are like this:
 - `rainbow-gamers-bedrock.mcpack` and `rainbow-gamers-java.zip`
-- `greyscale-teens-bedrock.mcpack` and `greyscale-teens-java.zip`
-- `sakura-couples-bedrock.mcpack` and `sakura-couples-java.zip`
+But with their corresponding real pack name.
 
 The skin preview expects all listed PNGs to be uploaded directly into `assets/skins/`, keeping the names and capitalization exactly as entered in `pack.html`.
 
